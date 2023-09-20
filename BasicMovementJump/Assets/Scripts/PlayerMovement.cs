@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private float inputHorizontal;
     //12
     public float jumpForce;
-    private bool isGrounded;
+    private int numJumps;
+    private int maxNumJumps;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
         //becuase the rigidbody2d is attached to the player and this script
         //is also attached to the player.
         playerRigidBody = GetComponent<Rigidbody2D>();
+        numJumps = 1;
+        maxNumJumps = 1;
     }
 
     // Update is called once per frame
@@ -48,13 +51,26 @@ public class PlayerMovement : MonoBehaviour
         inputHorizontal = Input.GetAxisRaw("Horizontal");
 
         playerRigidBody.velocity = new Vector2(movementSpeed * inputHorizontal, playerRigidBody.velocity.y);
+        filpPlayer();
+    }
+    private void filpPlayer()
+    {
+        if (inputHorizontal > 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if(inputHorizontal < 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 
     private void jump()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if(Input.GetKeyDown(KeyCode.Space) && numJumps <= maxNumJumps)
         {
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, jumpForce);
+            numJumps++;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -66,15 +82,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Ground"))
             {
-            isGrounded = true;
+            numJumps = 1;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("DoubleJump"))
+        {
+            maxNumJumps = 2;
+            Destroy(collision.gameObject);
+
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Ground"))
-            {
-            isGrounded = false;
-        }
-    }
 }
