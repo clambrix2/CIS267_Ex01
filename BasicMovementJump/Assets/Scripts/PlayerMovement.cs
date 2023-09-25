@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             SceneManager.LoadScene("SampleScene");
         }
         else if (collision.gameObject.CompareTag("Ground"))
-            {
+         {
             numJumps = 1;
         }
     }
