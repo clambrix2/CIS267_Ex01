@@ -87,11 +87,20 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("DoubleJump"))
+        if (collision.gameObject.CompareTag("DoubleJump"))
         {
             maxNumJumps = 2;
             Destroy(collision.gameObject);
 
+        }
+        else if(collision.gameObject.CompareTag("CoinCollectable"))
+        {
+            //get value of collectable
+            int collectableValue = collision.GetComponent<Collectable>().getCollectableValue();
+            //destory the collectable
+            collision.GetComponent<Collectable>().destoryCollectable();
+            //add to player score
+            GetComponent<PlayerScore>().setPlayerScore(collectableValue);
         }
     }
 

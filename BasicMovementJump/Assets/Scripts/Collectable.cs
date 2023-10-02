@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Collectable : MonoBehaviour
@@ -19,17 +20,17 @@ public class Collectable : MonoBehaviour
         gamescore = playerObject.GetComponent<PlayerScore>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void destoryCollectable()
     {
-        
+        Destroy(this.gameObject);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    public int getCollectableValue()
     {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            gamescore.setPlayerScore(collectableValue);
-            Destroy(this.gameObject);
-        }
+        return collectableValue;
+    }
+    public void setCollectableValue(int value)
+    {
+        collectableValue = value;
     }
 }
