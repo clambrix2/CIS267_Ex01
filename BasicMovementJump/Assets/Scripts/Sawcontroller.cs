@@ -10,7 +10,6 @@ public class Sawcontroller : MonoBehaviour
     public float offset;
     private bool moveup;
     private float startPosy;
-    private float endPosy;
    
     // Start is called before the first frame update
     void Start()

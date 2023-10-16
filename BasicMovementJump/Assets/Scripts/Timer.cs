@@ -26,12 +26,16 @@ public class Timer : MonoBehaviour
     }
     public void timerTick()
     {
-        time -= Time.deltaTime;
-        updateGuiTime();
+        
         if (timeup())
         {
             gm.setGameOver(true);
             time = 0;
+            updateGuiTime();
+        }
+        else
+        {
+            time -= Time.deltaTime;
             updateGuiTime();
         }
     }
